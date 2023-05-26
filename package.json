@@ -2,7 +2,7 @@
   "name": "cptn-js",
   "version": "1.0.0",
   "description": "JS library for sending events to cptn.io ingestion API",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,10 +15,14 @@
     "integrations",
     "data-pipelines"
   ],
+  "type": "module",
   "author": "Krishna Thota",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cptn-io/cptn-js/issues"
   },
-  "homepage": "https://github.com/cptn-io/cptn-js#readme"
+  "homepage": "https://github.com/cptn-io/cptn-js#readme",
+  "dependencies": {
+    "axios": "^1.4.0"
+  }
 }
