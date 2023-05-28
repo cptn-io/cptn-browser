@@ -5,7 +5,7 @@ class EventStorage {
 
     async addEvent(event) {
         if (this.storage.length >= 100) {
-            console.warn("CptnJS: Event storage is full. Discarding event.")
+            console.warn("CptnJS: Event storage is full. Discarding event.");
             return;
         }
         this.storage.push(event);

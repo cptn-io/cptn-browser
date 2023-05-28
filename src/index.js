@@ -1,7 +1,6 @@
 import EventQueue from "./eventQueue.js";
 
 class Cptn {
-    ready = false;
 
     constructor({ url, key }) {
         if (!url) {
