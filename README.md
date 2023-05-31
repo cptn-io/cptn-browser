@@ -21,6 +21,19 @@ Add the following script to head section of your web page.
 ## Usage
 
 ```
+import Cptn from 'cptn-js';
+
+const cptn = new Cptn({url:"<Ingestion url>", key:"<key>"});
+cptn.sendEvent({
+    "type":"click",
+    "element": "add_to_cart"
+});
+
+```
+
+```
+const Cptn = require('cptn-js');
+
 const cptn = new Cptn({url:"<Ingestion url>", key:"<key>"});
 cptn.sendEvent({
     "type":"click",
