@@ -1,0 +1,9 @@
+src/
+jest.config.json
+rollup.config.js
+coverage/
+.gitignore
+.babelrc
+.jshintrc
+node_modules/
+test/

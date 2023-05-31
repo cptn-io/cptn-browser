@@ -2,24 +2,29 @@ import Dispatcher from "./dispatcher.js";
 import EventStorage from "./eventStorage.js";
 
 class EventQueue {
-    constructor(url, batchSize = 10, batchInterval = 1000) {
+    constructor(url, batchSize = 10, batchInterval = 1000, maxQueueSize = 100) {
         this.url = url;
-        this.storage = new EventStorage();
+        this.storage = new EventStorage(maxQueueSize);
         this.batchSize = batchSize;
-        setInterval(() => {
-            this.processEvents();
+        setInterval(async () => {
+            await this.processEvents();
         }, batchInterval);
     }
 
     async addEvent(event) {
+
         this.storage.addEvent(event);
     }
 
-    processEvents() {
+    async processEvents() {
         const events = this.storage.getEvents(this.batchSize);
-        console.log(events);
         if (events.length > 0) {
-            Dispatcher.dispatch(this.url, events);
+            const dispatcher = new Dispatcher();
+            try {
+                await dispatcher.dispatch(this.url, events);
+            } catch (e) {
+                console.error(e);
+            }
         }
     }
 }

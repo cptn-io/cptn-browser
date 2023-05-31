@@ -7,8 +7,12 @@ class Cptn {
             console.error("CptnJS: URL is required. Please provide a URL to your Cptn instance.");
             return;
         }
-        const finalUrl = new URL(url + "/batch" + (key ? "?token=" + key : ''));
-        this.eventQueue = new EventQueue(finalUrl);
+
+        url = url.endsWith("/") ? url : url + "/";
+        url = url.endsWith("/batch") ? url : url + "batch";
+        url = url + (key ? "?token=" + key : '');
+
+        this.eventQueue = new EventQueue(url);
         this.ready = true;
     }
 

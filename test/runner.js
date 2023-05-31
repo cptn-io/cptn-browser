@@ -1,5 +1,5 @@
 /* jshint ignore:start */
-import Cptn from "./index.js";
+import Cptn from "../src/index.js";
 
 const cptn = new Cptn({ url: 'http://localhost:8081/event/source/0803332e-6eda-4e2c-965d-b14d2049e063' });
 

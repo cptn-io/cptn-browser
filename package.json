@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "JS library for sending events to cptn.io ingestion API",
   "main": "src/index.js",
+  "module": "dist/index.js",
+  "browser": "dist/browser.js",
   "scripts": {
-    "build": "npm run clean && rollup -c",
+    "build:browser": "BUILD_TARGET=browser rollup -c",
+    "build:node": "BUILD_TARGET=node rollup -c",
+    "build": "npm run clean && npm run build:node && npm run build:browser",
     "clean": "rm -rf dist",
     "lint": "jshint src/*.js",
     "test": "jest --coverage --verbose",
@@ -26,15 +30,15 @@
     "url": "https://github.com/cptn-io/cptn-js/issues"
   },
   "homepage": "https://github.com/cptn-io/cptn-js#readme",
-  "dependencies": {
-    "axios": "^1.4.0"
-  },
   "devDependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.22.1",
-    "@babel/plugin-transform-runtime": "^7.22.2",
+    "@babel/plugin-transform-classes": "^7.21.0",
     "@babel/preset-env": "^7.22.2",
-    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-replace": "^5.0.2",
     "babel-jest": "^29.5.0",
     "babel-loader": "^9.1.2",
     "jest": "^29.5.0",
