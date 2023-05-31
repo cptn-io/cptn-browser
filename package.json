@@ -3,8 +3,12 @@
   "version": "1.0.1",
   "description": "JS library for sending events to cptn.io ingestion API",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.esm.mjs",
   "browser": "dist/browser.js",
+  "exports": {
+    "import": "./dist/index.esm.mjs",
+    "require": "./dist/index.js"
+  },
   "scripts": {
     "build:browser": "BUILD_TARGET=browser rollup -c",
     "build:node": "BUILD_TARGET=node rollup -c",
@@ -23,7 +27,6 @@
     "integrations",
     "data-pipelines"
   ],
-  "type": "module",
   "author": "Krishna Thota",
   "license": "MIT",
   "bugs": {
