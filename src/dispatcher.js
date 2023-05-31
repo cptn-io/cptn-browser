@@ -51,7 +51,7 @@ class Dispatcher {
             if (XMLHttpRequest) {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', sourceUrl, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
                 xhr.withCredentials = false;
                 xhr.send(postData);
 
