@@ -1,3 +1,8 @@
+/**
+ * @license Copyright (c) 2023 DevRaven, Inc.
+ * MIT license
+ */
+
 import EventQueue from "./eventQueue.js";
 
 class Cptn {
