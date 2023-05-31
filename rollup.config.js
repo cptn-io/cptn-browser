@@ -17,9 +17,8 @@ const nodeTargets = {
 };
 
 const plugins = [
-    terser(),
-    resolve({ browser: true, modulesOnly: true }),
-    commonjs(),
+    //terser(),
+    resolve(),
     replace({ preventAssignment: true, 'process.browser': isBrowser }),
     babel({
         presets: [['@babel/preset-env', { targets: isBrowser ? browserTargets : nodeTargets }]],
@@ -33,10 +32,20 @@ const plugins = [
 
 export default {
     input: 'src/index.js',
-    output: {
-        file: isBrowser ? 'dist/browser.js' : 'dist/index.js',
-        format: isBrowser ? 'iife' : 'es',
+    output: isBrowser ? {
+        file: 'dist/browser.js',
+        format: 'iife',
+        name: 'Cptn',
+    } : [{
+        file: 'dist/index.js',
+        format: 'cjs',
+        exports: 'auto',
         name: 'Cptn'
-    },
+    }, {
+        file: 'dist/index.esm.mjs',
+        format: 'es',
+        exports: 'auto',
+        name: 'Cptn'
+    }],
     plugins
 };

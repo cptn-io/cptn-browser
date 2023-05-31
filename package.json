@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "JS library for sending events to cptn.io ingestion API",
   "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "browser": "dist/browser.js",
   "scripts": {
     "build:browser": "BUILD_TARGET=browser rollup -c",
