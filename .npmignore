@@ -1,4 +1,4 @@
-src/
+src/**/*
 jest.config.json
 rollup.config.js
 coverage/

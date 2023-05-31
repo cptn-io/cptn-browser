@@ -2,8 +2,7 @@
   "name": "cptn-js",
   "version": "1.0.0",
   "description": "JS library for sending events to cptn.io ingestion API",
-  "main": "src/index.js",
-  "module": "dist/index.js",
+  "main": "dist/index.js",
   "browser": "dist/browser.js",
   "scripts": {
     "build:browser": "BUILD_TARGET=browser rollup -c",
