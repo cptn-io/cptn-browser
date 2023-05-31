@@ -12,9 +12,8 @@ class Cptn {
             console.error("CptnJS: URL is required. Please provide a URL to your Cptn instance.");
             return;
         }
-
-        url = url.endsWith("/") ? url : url + "/";
-        url = url.endsWith("/batch") ? url : url + "batch";
+        url = url.endsWith("/") ? url.slice(0, -1) : url;
+        url = url.endsWith("/batch") ? url : url + "/batch";
         url = url + (key ? "?token=" + key : '');
 
         this.eventQueue = new EventQueue(url);
