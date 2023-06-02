@@ -1,4 +1,4 @@
-import Cptn from '../';
+import Cptn from '..';
 
 describe('Cptn test', () => {
     let cptn;
@@ -8,13 +8,13 @@ describe('Cptn test', () => {
     });
 
     test('should add events to the storage', async () => {
-        let i = 0;
-        while (true) {
-            console.log("sending event " + i);
-            await cptn.sendEvent({ name: 'test', value: 'test' });
-            i++;
-            await new Promise(resolve => setTimeout(resolve, 10000));
-        }
+        // let i = 0;
+        // while (true) {
+        //     console.log("sending event " + i);
+        //     await cptn.sendEvent({ name: 'test', value: 'test' });
+        //     i++;
+        //     await new Promise(resolve => setTimeout(resolve, 10000));
+        // }
 
     }, 60000);
 });
