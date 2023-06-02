@@ -9,6 +9,7 @@ class EventQueue {
         this.batchSize = batchSize;
         this.isProcessing = false;
         this.maxRetries = maxRetries;
+        this.dispatcher = new Dispatcher();
 
         setInterval(async () => {
             await this.processEvents();
@@ -39,13 +40,17 @@ class EventQueue {
             console.log(`Retrying #${curTry}/${this.maxRetries} times.`);
         }
 
-        const dispatcher = new Dispatcher();
         try {
-            await dispatcher.dispatch(this.url, events);
+            await this.dispatcher.dispatch(this.url, events);
         } catch (e) {
+            console.log(`Failed to send batch. Retrying in ${this.batchInterval * curTry}ms.`, e)
             if (curTry < this.maxRetries) {
+                console.log(`Retrying batch #${curTry}/${this.maxRetries} times.`)
                 await new Promise((resolve) => {
+                    console.log("here1");
                     setTimeout(() => {
+                        console.log("here2");
+                        console.log(`Retrying batch #${curTry}/${this.maxRetries} times.`)
                         this.processEventBatch(events, curTry + 1).then(resolve).catch(resolve);
                     }, this.batchInterval * curTry);
                 });

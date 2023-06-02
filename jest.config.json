@@ -1,5 +1,8 @@
 {
     "transform": {
         "^.+\\.js$": "babel-jest"
+    },
+    "globals": {
+        "window": {}
     }
 }
