@@ -8,25 +8,24 @@ class Dispatcher {
     }
 
     async dispatchForNode(sourceUrl, data) {
-        return new Promise(async (resolve, reject) => {
-            const url = await import('url');
-            const http = await import('http');
-            const https = await import('https');
-            const parsedUrl = url.parse(sourceUrl);
-            const requestModule = parsedUrl.protocol === 'https:' ? https : http;
-            const options = {
-                hostname: parsedUrl.hostname,
-                port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
-                path: parsedUrl.pathname,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            };
+        const { URL } = await import('url');
+        const http = await import('http');
+        const https = await import('https');
+        const parsedUrl = new URL(sourceUrl);
+        const requestModule = parsedUrl.protocol === 'https:' ? https : http;
+        const options = {
+            hostname: parsedUrl.hostname,
+            port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
+            path: parsedUrl.pathname,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
 
-            var postData = JSON.stringify(data);
+        const postData = JSON.stringify(data);
 
-
+        return new Promise((resolve, reject) => {
             const req = requestModule.request(options, (res) => {
                 if (res.statusCode >= 200 && res.statusCode < 300) {
                     resolve();
@@ -37,9 +36,10 @@ class Dispatcher {
 
             req.on('error', (error) => {
                 console.error('An error occurred:', error);
+                reject(new Error(`Request failed with error ${error}`));
             });
-            req.write(postData);
 
+            req.write(postData);
             req.end();
         });
     }
