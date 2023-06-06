@@ -76,4 +76,79 @@ describe('Cptn', () => {
             expect(console.error).toHaveBeenCalledWith('CptnJS: Event payload must be an object. Discarding event.');
         });
     });
+
+    describe('enrichEvent', () => {
+        let cptn;
+
+        beforeEach(() => {
+            const url = 'https://example.com';
+            cptn = new Cptn({ url });
+            cptn.userId = '1234';
+            cptn.groupId = '5678';
+
+            //mock window object
+            delete window.location;
+            window.location = {
+                href: 'https://example.com',
+                pathname: '/path',
+                search: '?search=123',
+                hash: '#hash',
+            };
+            window.navigator = {
+                userAgent: 'userAgent',
+                language: 'en-US',
+            };
+
+            window.screen = {
+                width: 100,
+                height: 100,
+            };
+
+            window.document = {
+                referrer: 'https://example.com',
+                title: 'title',
+            };
+
+            Intl.DateTimeFormat = jest.fn().mockImplementation(() => ({
+                resolvedOptions: () => ({
+                    timeZone: 'America/New_York',
+                }),
+            }));
+
+            Date.prototype.getTimezoneOffset = jest.fn().mockImplementation(() => 240);
+        });
+
+
+        it('should add the anonymousId, timestamp, and userId to the event', async () => {
+            const payload = { event: 'click', item: 'signup_buttom' };
+            const enrichedPayload = await cptn.enrichEvent(payload);
+            expect(enrichedPayload).toEqual({
+                ...payload,
+                "context": {
+                    "groupId": "5678",
+                    "locale": "en-US",
+                    "page": {
+                        "hash": "#hash",
+                        "path": "/path",
+                        "referrer": "https://example.com",
+                        "search": "?search=123",
+                        "title": "title",
+                        "url": "https://example.com",
+                    },
+                    "screen": {
+                        "height": 100,
+                        "width": 100,
+                    },
+                    "timezone": "America/New_York",
+                    "tzOffset": 240,
+                    "userAgent": "userAgent",
+                },
+                anonymousId: cptn.anonymousId,
+                timestamp: expect.any(String),
+                userId: cptn.userId,
+            });
+        });
+    });
+
+
 });

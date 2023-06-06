@@ -48,6 +48,9 @@ class Cptn {
 
 
     async identify(userId, properties = {}) {
+        if (userId !== 0 && !userId) {
+            return;
+        }
         this.userId = userId;
         Cookies.set(this.userCookieName, this.userId, { expires: 365 });
         await this.sendEvent({ type: "identify", properties });
@@ -84,10 +87,7 @@ class Cptn {
             console.error("CptnJS: Event payload must be an object. Discarding event.");
             return;
         }
-        console.log(payload);
         payload = await this.enrichEvent(payload);
-        console.log(payload);
-
         this.eventQueue.addEvent(payload);
     }
 
