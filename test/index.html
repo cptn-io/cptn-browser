@@ -9,13 +9,14 @@
     <script>
         (function () {
             var script = document.createElement('script');
-            script.src = '../dist/browser.js';
+            script.src = 'https://unpkg.com/cptn-js/dist/browser.js';
             script.onload = function () {
-                window.Cptn = new Cptn({ url: 'https://demo.elcptn.com/event/source/8d2c2cdd-5c84-4888-8792-b375501f2fdf' });
+                window.cptn = new Cptn({ url: '<Ingestion url>', key: '<key>' });
             };
             document.head.appendChild(script);
         })();
     </script>
+
 
 
 </html>
