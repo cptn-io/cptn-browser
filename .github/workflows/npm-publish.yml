@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -33,3 +35,13 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+
+      - name: Setup git config
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "BuildMan"
+      
+      - name: Auto increment version
+        run: npm version patch -m "[Build] Bump version to %s"
+      
+      - run: git push
