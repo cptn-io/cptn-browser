@@ -34,7 +34,7 @@ class Cptn {
             return;
         }
 
-        this.anonymousId = Math.random().toString(36).substring(2);
+        this.anonymousId = anonymousId = Math.random().toString(36).substring(2);
         Cookies.set(this.anonymousCookieName, anonymousId, { expires: 365 });
     }
 

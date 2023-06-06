@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import EventQueue from '../eventQueue';
 import Cptn from '../index';
 
@@ -150,5 +151,24 @@ describe('Cptn', () => {
         });
     });
 
+    describe('set_cookie', () => {
+        let cptn;
 
+        it('should set the cookie for anonymousId', () => {
+            Cookies.set = jest.fn();
+            const url = 'https://example.com';
+            cptn = new Cptn({ url });
+
+            expect(Cookies.set).toHaveBeenCalledWith(cptn.anonymousCookieName, cptn.anonymousId, { expires: 365 });
+        });
+
+        it('should set the cookie for userId', () => {
+            Cookies.set = jest.fn();
+            const url = 'https://example.com';
+            cptn = new Cptn({ url });
+            cptn.identify('1234');
+            expect(cptn.userId).toEqual('1234');
+            expect(Cookies.set).toHaveBeenCalledWith(cptn.userCookieName, cptn.userId, { expires: 365 });
+        });
+    });
 });
