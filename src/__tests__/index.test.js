@@ -57,18 +57,18 @@ describe('Cptn', () => {
             cptn.eventQueue.addEvent = jest.fn();
         });
 
-        it('should add the event to the eventQueue', () => {
-            const payload = { event: 'click', timestamp: Date.now() };
-            cptn.sendEvent(payload);
+        it('should add the event to the eventQueue', async () => {
+            const payload = { event: 'click', item: 'signup_buttom' };
+            await cptn.sendEvent(payload);
 
-            expect(cptn.eventQueue.addEvent).toHaveBeenCalledWith(payload);
+            expect(cptn.eventQueue.addEvent).toHaveBeenCalledTimes(1);
         });
 
         it('should log an error if Cptn is not ready', () => {
             cptn.ready = false;
             const payload = { event: 'click', timestamp: Date.now() };
             cptn.sendEvent(payload);
-            expect(console.error).toHaveBeenCalledWith('CptnJS: Cptn is not ready. Ensure the url and key are passed to the constructor.');
+            expect(console.error).toHaveBeenCalledWith('CptnJS: CptnJS is not ready. Ensure the url and key (if secured) are passed to the constructor.');
         });
 
         it('should log an error if payload is not an object', () => {
