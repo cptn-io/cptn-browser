@@ -1,4 +1,5 @@
-/**
+/*!
+ * cptn-js 
  * @license Copyright (c) 2023 DevRaven, Inc.
  * MIT license
  */
@@ -8,8 +9,8 @@ import EventQueue from "./eventQueue.js";
 
 class Cptn {
 
-    #anonymousCookieName = "cptnjs_anonymous_id";
-    #userCookieName = "cptnjs_user_id";
+    anonymousCookieName = "cptnjs_anonymous_id";
+    userCookieName = "cptnjs_user_id";
 
     constructor({ url, key }) {
         if (!url) {
@@ -21,32 +22,34 @@ class Cptn {
         url = url + (key ? "?token=" + key : '');
 
         this.eventQueue = new EventQueue(url);
-        this.#setupAnonymousId();
-        this.#setupUserId();
+        this.setupAnonymousId();
+        this.setupUserId();
         this.ready = true;
     }
 
-    #setupAnonymousId() {
-        let anonymousId = Cookies.get(this.#anonymousCookieName);
+    setupAnonymousId() {
+        let anonymousId = Cookies.get(this.anonymousCookieName);
         if (anonymousId) {
             this.anonymousId = anonymousId;
             return;
         }
 
         this.anonymousId = Math.random().toString(36).substring(2);
-        Cookies.set(this.#anonymousCookieName, anonymousId, { expires: 365 });
+        Cookies.set(this.anonymousCookieName, anonymousId, { expires: 365 });
     }
 
-    #setupUserId() {
-        let userId = Cookies.get(this.#userCookieName);
+    setupUserId() {
+        let userId = Cookies.get(this.userCookieName);
         if (userId) {
             this.userId = userId;
         }
     }
 
+
+
     async identify(userId, properties = {}) {
         this.userId = userId;
-        Cookies.set(this.#userCookieName, this.userId, { expires: 365 });
+        Cookies.set(this.userCookieName, this.userId, { expires: 365 });
         await this.sendEvent({ type: "identify", properties });
     }
 
