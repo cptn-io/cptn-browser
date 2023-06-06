@@ -1,81 +1,58 @@
 class Dispatcher {
     async dispatch(sourceUrl, data) {
-        if (process.browser) {
-            return this.dispatchForBrowser(sourceUrl, data);
-        } else {
-            return this.dispatchForNode(sourceUrl, data);
+        const postData = JSON.stringify(data);
+
+        try {
+            if (typeof XMLHttpRequest !== 'undefined') {
+                return this.sendHttpRequest(sourceUrl, postData);
+            } else if (typeof XDomainRequest !== 'undefined') {
+                return this.sendXDomainRequest(sourceUrl, postData);
+            } else {
+                throw new Error('xhr not available');
+            }
+        } catch (error) {
+            throw new Error(`Error sending request: ${error.message}`);
         }
     }
 
-    async dispatchForNode(sourceUrl, data) {
-        const { URL } = await import('url');
-        const http = await import('http');
-        const https = await import('https');
-        const parsedUrl = new URL(sourceUrl);
-        const requestModule = parsedUrl.protocol === 'https:' ? https : http;
-        const options = {
-            hostname: parsedUrl.hostname,
-            port: parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80),
-            path: parsedUrl.pathname,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
-
-        const postData = JSON.stringify(data);
-
+    sendHttpRequest(url, data) {
         return new Promise((resolve, reject) => {
-            const req = requestModule.request(options, (res) => {
-                if (res.statusCode >= 200 && res.statusCode < 300) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.withCredentials = false;
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState !== 4) {
+                    return;
+                }
+
+                if (xhr.status >= 200 && xhr.status < 300) {
                     resolve();
                 } else {
-                    reject(new Error(`Request failed with status code ${res.statusCode}`));
+                    reject(new Error(`Request failed with status code ${xhr.status}`));
                 }
-            });
+            };
 
-            req.on('error', (error) => {
-                console.error('An error occurred:', error);
-                reject(new Error(`Request failed with error ${error}`));
-            });
+            xhr.onerror = () => {
+                reject(new Error('Error sending XMLHttpRequest'));
+            };
 
-            req.write(postData);
-            req.end();
+            xhr.send(data);
         });
     }
 
-    async dispatchForBrowser(sourceUrl, data) {
+    sendXDomainRequest(url, data) {
         return new Promise((resolve, reject) => {
-            const postData = JSON.stringify(data);
-            //not supporting sendbeacon as xdomain calls would require Access-Control-Allow-Credentails: true for sending json payloads
-            if (XMLHttpRequest) {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', sourceUrl, true);
-                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                xhr.withCredentials = false;
-                xhr.send(postData);
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            resolve();
-                        } else {
-                            reject(new Error(`Request failed with status code ${xhr.status}`));
-                        }
-                    }
-                };
-                return;
-            } else if (XDomainRequest) {
-                //XDomainRequest for IE
-                const xdr = new XDomainRequest();
-                xdr.open('POST', sourceUrl);
-                xdr.onerror = function () {
-                    reject(new Error('error sending xdr'));
-                };
-                xdr.send(postData);
-                return;
-            }
-            reject(new Error('xhr not available'));
+            const xdr = new XDomainRequest();
+            xdr.open('POST', url);
+            xdr.onload = () => {
+                resolve();
+            };
+            xdr.onerror = () => {
+                reject(new Error('Error sending XDomainRequest'));
+            };
+            xdr.send(data);
         });
     }
 }

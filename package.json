@@ -11,12 +11,10 @@
   },
   "engines": {
     "npm": ">=8.6.0",
-    "node": ">=18.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
-    "build:browser": "BUILD_TARGET=browser rollup -c",
-    "build:node": "BUILD_TARGET=node rollup -c",
-    "build": "npm run clean && npm run build:node && npm run build:browser",
+    "build": "npm run clean && npm run lint && npm run test && rollup -c",
     "clean": "rm -rf dist",
     "lint": "jshint src/*.js",
     "test": "jest --coverage --verbose",
