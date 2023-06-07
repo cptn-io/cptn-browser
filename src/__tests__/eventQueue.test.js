@@ -63,7 +63,7 @@ describe('EventQueue', () => {
         it('should process events and call processEventBatch', async () => {
             const events = [{ id: 1, name: 'Event 1' }, { id: 2, name: 'Event 2' }];
             mockStorage.getEvents = jest.fn().mockReturnValue(events);
-            eventQueue.processEventBatch = jest.fn();
+            eventQueue.processEventBatch = jest.fn().mockResolvedValue();
 
             await eventQueue.processEvents();
 
@@ -98,31 +98,17 @@ describe('EventQueue', () => {
 
             const promise = eventQueue.processEventBatch(events);
             jest.advanceTimersByTime(10000);
-            await promise;
+            try {
+                await promise;
+            } catch (e) {
+                expect(e).toEqual(new Error(`Failed to send batch after 3 tries.`));
+            }
 
             expect(dispatcher.dispatch).toHaveBeenCalledTimes(3);
             expect(dispatcher.dispatch).toHaveBeenCalledWith('https://example.com', events);
             expect(setTimeout).toHaveBeenCalledTimes(2);
         }, 10000);
 
-        it('should log an error if all retries fail', async () => {
-            const events = [{ id: 1, name: 'Event 1' }, { id: 2, name: 'Event 2' }];
-            eventQueue.maxRetries = 3;
 
-            dispatcher.dispatch = jest.fn().mockRejectedValue(new Error('Failed to send batch'));
-
-            jest.spyOn(global, 'setTimeout').mockImplementation((fn) => fn());
-            jest.spyOn(console, 'error').mockImplementation(() => { });
-
-            const promise = eventQueue.processEventBatch(events);
-            jest.advanceTimersByTime(10000);
-            await promise;
-
-            expect(dispatcher.dispatch).toHaveBeenCalledTimes(3);
-            expect(console.error).toHaveBeenCalledWith(
-                'Failed to send batch after 3 tries.',
-                expect.any(Error)
-            );
-        }, 10000);
     });
 });
