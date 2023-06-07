@@ -50,17 +50,16 @@ class EventQueue {
                 .then(() => {
                     resolve();
                 })
-                .catch((err) => {
+                .catch(async (err) => {
                     console.warn(err);
                     if (curTry < this.maxRetries) {
-                        setTimeout(async () => {
-                            try {
-                                await this.processEventBatch(events, curTry + 1);
-                                resolve();
-                            } catch (error) {
-                                reject(error);
-                            }
-                        }, this.batchInterval * curTry);
+                        new Promise(resolve => setTimeout(resolve, this.batchInterval * curTry));
+                        try {
+                            await this.processEventBatch(events, curTry + 1);
+                            resolve();
+                        } catch (error) {
+                            reject(error);
+                        }
                     } else {
                         reject(new Error(`Failed to send batch after ${this.maxRetries} tries.`));
                     }
