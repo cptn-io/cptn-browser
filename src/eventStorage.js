@@ -4,7 +4,7 @@ class EventStorage {
         this.maxQueueSize = maxQueueSize;
     }
 
-    async addEvent(event) {
+    addEvent(event) {
         if (this.storage.length >= this.maxQueueSize) {
             console.warn("CptnJS: Event storage is full. Discarding event.");
             return;

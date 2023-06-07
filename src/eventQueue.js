@@ -16,7 +16,7 @@ class EventQueue {
         }, batchInterval);
     }
 
-    async addEvent(event) {
+    addEvent(event) {
         this.storage.addEvent(event);
     }
 
