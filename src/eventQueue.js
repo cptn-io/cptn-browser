@@ -53,7 +53,7 @@ class EventQueue {
                 .catch(async (err) => {
                     console.warn(err);
                     if (curTry < this.maxRetries) {
-                        new Promise(resolve => setTimeout(resolve, this.batchInterval * curTry));
+                        await new Promise(resolve => setTimeout(resolve, this.batchInterval * curTry));
                         try {
                             await this.processEventBatch(events, curTry + 1);
                             resolve();
