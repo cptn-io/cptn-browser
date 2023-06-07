@@ -33,7 +33,7 @@ describe('EventQueue', () => {
         });
 
         it('should call processEvents at regular intervals', () => {
-            eventQueue.processEvents = jest.fn();
+            eventQueue.processEvents = jest.fn().mockResolvedValue();
 
             jest.advanceTimersByTime(5000);
             expect(eventQueue.processEvents).toHaveBeenCalledTimes(5);

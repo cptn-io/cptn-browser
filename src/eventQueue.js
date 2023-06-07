@@ -12,7 +12,11 @@ class EventQueue {
         this.dispatcher = new Dispatcher();
 
         setInterval(() => {
-            this.processEvents();
+            this.processEvents().then(() => {
+                console.log('Batch processed successfully.');
+            }).catch((error) => {
+                console.error("Error processing event batch: ", error);
+            });
         }, batchInterval);
     }
 
