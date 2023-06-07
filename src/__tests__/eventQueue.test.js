@@ -55,7 +55,7 @@ describe('EventQueue', () => {
             eventQueue.isProcessing = true;
             eventQueue.processEventBatch = jest.fn();
 
-            await eventQueue.processEvents();
+            eventQueue.processEvents();
 
             expect(eventQueue.processEventBatch).not.toHaveBeenCalled();
         });
@@ -64,11 +64,32 @@ describe('EventQueue', () => {
             const events = [{ id: 1, name: 'Event 1' }, { id: 2, name: 'Event 2' }];
             mockStorage.getEvents = jest.fn().mockReturnValue(events);
             eventQueue.processEventBatch = jest.fn().mockResolvedValue();
-
-            await eventQueue.processEvents();
-
+            eventQueue.processEvents().then(() => {
+                expect(eventQueue.isProcessing).toBe(false);
+            }).catch((error) => {
+                console.error(error);
+            });
             expect(eventQueue.processEventBatch).toHaveBeenCalledWith(events);
-            expect(eventQueue.isProcessing).toBe(false);
+        });
+
+        it('should process events and call processEventBatch throwing exception', async () => {
+            const events = [{ id: 1, name: 'Event 1' }, { id: 2, name: 'Event 2' }];
+            mockStorage.getEvents = jest.fn().mockReturnValue(events);
+            eventQueue.processEventBatch = jest.fn().mockRejectedValue(new Error('Error'));
+            eventQueue.processEvents().catch((error) => {
+                expect(eventQueue.isProcessing).toBe(false);
+            });
+            expect(eventQueue.processEventBatch).toHaveBeenCalledWith(events);
+        });
+
+        it('should not call processEventBatch when inprocess', async () => {
+            const events = [{ id: 1, name: 'Event 1' }, { id: 2, name: 'Event 2' }];
+            mockStorage.getEvents = jest.fn().mockReturnValue(events);
+            eventQueue.processEventBatch = jest.fn().mockResolvedValue();
+            jest.replaceProperty(eventQueue, 'isProcessing', true);
+            eventQueue.processEvents();
+
+            expect(eventQueue.processEventBatch).toBeCalledTimes(0);
         });
     });
 

@@ -47,37 +47,37 @@ class Cptn {
 
 
 
-    async identify(userId, properties = {}) {
+    identify(userId, properties = {}) {
         if (userId !== 0 && !userId) {
             return;
         }
         this.userId = userId;
         Cookies.set(this.userCookieName, this.userId, { expires: 365 });
-        await this.sendEvent({ type: "identify", properties });
+        this.sendEvent({ type: "identify", properties });
     }
 
-    async track(event = "default", properties = {}) {
-        await this.sendEvent({ type: "track", event, properties });
+    track(event = "default", properties = {}) {
+        this.sendEvent({ type: "track", event, properties });
     }
 
-    async page(category = "default", name = "default", properties = {}) {
-        await this.sendEvent({ type: "page", category, name, properties });
+    page(category = "default", name = "default", properties = {}) {
+        this.sendEvent({ type: "page", category, name, properties });
     }
 
-    async screen(name = "default", properties = {}) {
-        await this.sendEvent({ type: "screen", name, properties });
+    screen(name = "default", properties = {}) {
+        this.sendEvent({ type: "screen", name, properties });
     }
 
-    async group(groupId, properties = {}) {
+    group(groupId, properties = {}) {
         this.groupId = groupId;
-        await this.sendEvent({ type: "group", groupId, properties });
+        this.sendEvent({ type: "group", groupId, properties });
     }
 
-    async capture(type = "customEvent", properties = {}) {
-        await this.sendEvent({ type, properties });
+    capture(type = "customEvent", properties = {}) {
+        this.sendEvent({ type, properties });
     }
 
-    async sendEvent(payload) {
+    sendEvent(payload) {
         if (!this.ready) {
             console.error("CptnJS: CptnJS is not ready. Ensure the url and key (if secured) are passed to the constructor.");
             return;
@@ -87,7 +87,7 @@ class Cptn {
             console.error("CptnJS: Event payload must be an object. Discarding event.");
             return;
         }
-        payload = await this.enrichEvent(payload);
+        payload = this.enrichEvent(payload);
         this.eventQueue.addEvent(payload);
     }
 

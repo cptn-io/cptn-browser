@@ -21,18 +21,22 @@ class EventQueue {
     }
 
     processEvents() {
-        if (this.isProcessing) {
-            return;
-        }
-        this.isProcessing = true;
+        return new Promise((resolve, reject) => {
+            if (this.isProcessing) {
+                return;
+            }
+            this.isProcessing = true;
 
-        const events = this.storage.getEvents(this.batchSize);
+            const events = this.storage.getEvents(this.batchSize);
 
-        this.processEventBatch(events).then(() => {
-            this.isProcessing = false;
-        }).catch((error) => {
-            console.error(error);
-            this.isProcessing = false;
+            this.processEventBatch(events).then(() => {
+                this.isProcessing = false;
+                resolve();
+            }).catch((error) => {
+                console.error(error);
+                this.isProcessing = false;
+                reject(error);
+            });
         });
     }
 
