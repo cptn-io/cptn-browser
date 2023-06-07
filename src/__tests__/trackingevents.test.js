@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import EventQueue from '../eventQueue';
 import Cptn from '../index';
 
 jest.mock('../eventQueue');
