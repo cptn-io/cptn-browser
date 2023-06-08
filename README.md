@@ -59,6 +59,17 @@ cptn.capture({
 
 ```
 
+## Setup CORS headers
+
+In order to send events from your website to your cptn.io instance, CORS headers must be setup so browsers allow cross-domain calls. To setup CORS headers:
+
+1. Login to your cptn.io instance and navigate to the Source that would receive the tracking events.
+2. Click **Edit Source**
+3. Configure the **Response Headers** with appropriate value as shows below.
+
+![CORS Configuration](./images/cors.png)
+
+
 ## Supported methods:
 
 ### capture
