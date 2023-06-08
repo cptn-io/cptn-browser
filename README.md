@@ -67,7 +67,7 @@ In order to send events from your website to your cptn.io instance, CORS headers
 2. Click **Edit Source**
 3. Configure the **Response Headers** with appropriate value as shows below.
 
-![CORS Configuration](./images/cors.png)
+![CORS Configuration](https://github.com/cptn-io/cptn-browser/raw/main/images/cors.png)
 
 
 ## Supported methods:
