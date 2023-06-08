@@ -201,7 +201,7 @@ Following are the common attributes part of the events captured:
 
 ## IP tracking
 
-cptn.io supports capturing user ip address starting Cupertino release. When enabled, the inbound event will be enriched with the remote IP address as below.
+cptn.io supports capturing user ip address starting with Cupertino release (coming up soon). When enabled, the inbound event will be enriched with the remote IP address as below.
 
 ```js
 {
