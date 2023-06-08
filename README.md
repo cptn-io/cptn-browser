@@ -9,7 +9,7 @@ This library is not intended to be used with NodeJS applications.
 
 ### Embed into web pages
 
-Add the following code snippet to web pages. Change the <Ingestion url> and <key> values to your Source end point values.
+Add the following code snippet to web pages. Change the `<Ingestion url>` and `<key>` values to appropriate values for your Source end point.
     
 ```js
 <script>
