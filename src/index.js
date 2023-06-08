@@ -77,6 +77,12 @@ class Cptn {
         this.sendEvent({ type, properties });
     }
 
+    clearIdentity() {
+        this.userId = undefined;
+        this.groupId = undefined;
+        Cookies.remove(this.userCookieName);
+    }
+
     sendEvent(payload) {
         if (!this.ready) {
             console.error("CptnJS: CptnJS is not ready. Ensure the url and key (if secured) are passed to the constructor.");

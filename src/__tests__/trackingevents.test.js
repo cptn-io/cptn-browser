@@ -62,7 +62,7 @@ describe('tracking events', () => {
         expect(cptn.sendEvent).toHaveBeenCalledWith({ type: "identify", properties });
     });
 
-    it('should handle identify call with id 0', async () => {
+    it('should handle identify call with no userId', async () => {
         cptn.sendEvent = jest.fn();
         const userId = null;
         const properties = { name: 'engineering' };
@@ -104,5 +104,22 @@ describe('tracking events', () => {
         cptn = new Cptn({ url });
         cptn.identify(userId);
         expect(cptn.userId).toEqual(userId);
+    });
+
+    it('should remove userId, groupId on clearUserDetails', async () => {
+        cptn.sendEvent = jest.fn();
+        Cookies.remove = jest.fn();
+        const userId = 0;
+        const properties = { name: 'engineering' };
+        cptn.identify(userId, properties);
+        const groupId = '1234';
+        cptn.group(groupId, properties);
+
+        expect(cptn.userId).toEqual(userId);
+        expect(cptn.groupId).toEqual(groupId);
+        cptn.clearIdentity();
+        expect(cptn.userId).toBeUndefined();
+        expect(cptn.groupId).toBeUndefined();
+        expect(Cookies.remove).toHaveBeenCalledWith(cptn.userCookieName);
     });
 });
