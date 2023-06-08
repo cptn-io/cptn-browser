@@ -1,7 +1,7 @@
 {
-  "name": "cptn-js",
+  "name": "cptn-browser",
   "version": "1.0.6",
-  "description": "JS library for sending events to cptn.io ingestion API",
+  "description": "Browser JS library for sending events to cptn.io ingestion API",
   "main": "dist/index.js",
   "module": "dist/index.esm.mjs",
   "browser": "dist/browser.js",
@@ -10,8 +10,8 @@
     "require": "./dist/index.js"
   },
   "engines": {
-    "npm": ">=7.10.0",
-    "node": ">=16.0.0"
+    "npm": ">=8.6.0",
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "npm run clean && npm run lint && npm run test && rollup -c",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cptn-io/cptn-js.git"
+    "url": "https://github.com/cptn-io/cptn-browser.git"
   },
   "keywords": [
     "cptn",
@@ -32,9 +32,9 @@
   "author": "Krishna Thota",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cptn-io/cptn-js/issues"
+    "url": "https://github.com/cptn-io/cptn-browser/issues"
   },
-  "homepage": "https://github.com/cptn-io/cptn-js#readme",
+  "homepage": "https://github.com/cptn-io/cptn-browser#readme",
   "devDependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.22.1",

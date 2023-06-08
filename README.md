@@ -1,6 +1,6 @@
-![GitHub](https://img.shields.io/github/license/cptn-io/cptn-js)
+![GitHub](https://img.shields.io/github/license/cptn-io/cptn-browser)
 
-# cptn-js
+# cptn-browser
 JS library for sending tracking events from browser clients to cptn.io instance's Source end point.
 
 This library is not intended to be used with NodeJS applications.
@@ -15,7 +15,7 @@ Add the following code snippet to web pages. Change the `<Ingestion url>` and `<
 <script>
     (function () {
         var script = document.createElement('script');
-        script.src = 'https://unpkg.com/cptn-js/dist/browser.js';
+        script.src = 'https://unpkg.com/cptn-browser/dist/browser.js';
         script.onload = function () {
             window.cptn = new Cptn({ url: '<Ingestion url>', key: '<key>' });
         };
@@ -27,12 +27,12 @@ Add the following code snippet to web pages. Change the `<Ingestion url>` and `<
 ### Use as a NPM module:
     
 ```
-npm install cptn-js    
+npm install cptn-browser 
 ```
 Use as ES module 
 
 ```js
-import Cptn from 'cptn-js';
+import Cptn from 'cptn-browser';
 
 const cptn = new Cptn({url:"<Ingestion url>", key:"<key>"});
 cptn.capture({
@@ -47,7 +47,7 @@ cptn.capture({
 Use as CommonJS module
 
 ```js
-const Cptn = require('cptn-js');
+const Cptn = require('cptn-browser');
 
 const cptn = new Cptn({url:"<Ingestion url>", key:"<key>"});
 cptn.capture({

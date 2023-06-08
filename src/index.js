@@ -1,5 +1,5 @@
 /*!
- * cptn-js 
+ * cptn-browser
  * @license Copyright (c) 2023 DevRaven, Inc.
  * MIT license
  */
