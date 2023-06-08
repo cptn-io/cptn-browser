@@ -10,3 +10,4 @@ test/
 .github/**/*
 sonar-project.properties
 .eslintrc.json
+.eslintrc.js
