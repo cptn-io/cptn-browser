@@ -99,7 +99,7 @@ class Cptn {
 
 
 
-    async enrichEvent(event) {
+    enrichEvent(event) {
         return {
             ...event,
             anonymousId: this.anonymousId,

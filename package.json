@@ -1,6 +1,6 @@
 {
   "name": "cptn-browser",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Browser JS library for sending events to cptn.io ingestion API",
   "main": "dist/index.js",
   "module": "dist/index.esm.mjs",
